@@ -1,0 +1,3 @@
+rootProject.name = 'imx3'
+
+include ':app'
