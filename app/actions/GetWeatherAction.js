@@ -6,7 +6,7 @@ import * as TYPES from '../ActionType';
 /**
  * 获取天气预报的action
  */
-export function actionGetWeather(list) {
+function actionGetWeather(list) {
     return (dispatch) => {
         //开始获取，发送一个dispatch
         dispatch(init(list));
@@ -35,4 +35,31 @@ function success(list) {
         message: '获取成功',
         bean: list,
     }
+}
+
+const tabBarStatus = (bl) => {
+
+    return function(dispatch) {
+        console.log(bl, 'bl');
+        if (bl) {
+            console.log('执行了');
+            dispatch({
+                type: TYPES.TABBARSTATUS,
+                payload: {}
+            })
+        } else {
+            dispatch({
+                type: TYPES.TABBARSTATUS,
+                payload: {
+                    height: 0,
+                    overflow: 'hidden'
+                }
+            });
+        }
+    }
+}
+
+export {
+    actionGetWeather,
+    tabBarStatus
 }

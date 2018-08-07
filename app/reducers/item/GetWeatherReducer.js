@@ -1,5 +1,5 @@
 /**
- * create by AbyssKitty on 2017/12/06
+ * create by xiaohong on 2017/12/06
  * reducers
  */
 import * as TYPES from '../../ActionType';
@@ -12,6 +12,9 @@ const getWeather = (state, action) => {
 			isSuccess: false,
 			bean: null,
 			message: '',
+			tabBarStatus: {
+
+			}
 		}
 	}
 
@@ -32,6 +35,11 @@ const getWeather = (state, action) => {
 				message: action.message,
 			});
 			break;
+
+		case TYPES.TABBARSTATUS:
+			return Object.assign({}, state, {
+				tabBarStatus: action.payload
+			});
 		default:
 			return state;
 	}

@@ -16,12 +16,32 @@ import {
 } from '../actions/GetWeatherAction';
 
 class Redux1 extends Component {
+    // static navigationOptions = ({
+    //     navigation,
+    //     screenProps
+    // }) => ({
+    //     header: null,
+    // })
+
     static navigationOptions = ({
         navigation,
         screenProps
-    }) => ({
-        header: null,
-    })
+    }) => {
+
+        return {
+            title: '例子',
+            mode: 'card',
+            headerMode: 'screen',
+            headerStyle: {
+                backgroundColor: '#e56045',
+                borderBottom: 0
+            },
+            headerTintColor: '#fff',
+            headerTitleStyle: {
+                fontWeight: 'bold'
+            }
+        }
+    }
 
     constructor(props) {
         super(props);
@@ -32,6 +52,7 @@ class Redux1 extends Component {
     }
 
     quit = () => {
+        console.log(this);
         this.props.navigation.goBack();
     }
 

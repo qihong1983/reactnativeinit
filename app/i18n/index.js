@@ -31,8 +31,6 @@ i18n.translations = {
 	en
 };
 
-
-
 export {
 	i18n
 };
