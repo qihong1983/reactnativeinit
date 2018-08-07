@@ -11,6 +11,7 @@
     "antd-mobile-rn": "~2.2.0",
     "dimensions": "~0.1.0",
     "lodash": "~4.17.10",
+    "moment": "~2.22.2",
     "native-echarts": "~0.4.0",
     "react": "16.0.0",
     "react-native": "0.51.0",

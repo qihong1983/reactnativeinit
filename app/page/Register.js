@@ -51,21 +51,11 @@ import * as RegisterActions from '../actions/Register/Register';
 
 actionCreators = Object.assign({}, GetWeatherActions, RegisterActions);
 
-import {
-	district
-} from 'antd-mobile-demo-data';
+// import {
+// 	district
+// } from 'antd-mobile-demo-data';
 
 
-const CustomChildren = (props: any) => (
-	<TouchableOpacity onPress={props.onClick}>
-    <View
-      style={{ height: 36, paddingLeft: 15, flexDirection: 'row', alignItems: 'center' }}
-    >
-      <Text style={{ flex: 1 }}>{props.children}</Text>
-      <Text style={{ textAlign: 'right', color: '#888', marginRight: 15 }}>{props.extra}</Text>
-    </View>
-  </TouchableOpacity>
-);
 
 class Register extends React.Component {
 
@@ -80,13 +70,6 @@ class Register extends React.Component {
 		}
 	}
 
-	onClick = () => {
-		setTimeout(() => {
-			this.setState({
-				data: district,
-			});
-		}, 500);
-	}
 
 	constructor(props) {
 		super(props);
@@ -110,35 +93,39 @@ class Register extends React.Component {
 	}
 
 	componentDidMount() {
-
-
-
 		//停掉定时器
 		clearInterval(this.timer);
 		this.timer = null;
 	}
 
+	/**
+	 * 切换手机或邮箱
+	 * @method onChange
+	 * @param e {Number}
+	 */
 	onChange = (e) => {
 		this.props.ChangeType(e.nativeEvent.selectedSegmentIndex);
 	}
 
+	/**
+	 * 手机号前缀
+	 * @method changeMobilePrefix
+	 */
 	changeMobilePrefix = () => {
-
-
-
 		let mobilePrefix = '+86';
-
 		this.props.Register.country_data.map((v, k) => {
 			if (this.props.Register.country_id.join('') == v.id.toString()) {
 				mobilePrefix = v.mobile_prefix;
 			}
 		});
-
-
-
 		this.props.changeMobilePrefix(mobilePrefix);
 	}
 
+	/**
+	 * 切换国籍
+	 * @method onChangePicker
+	 * @param value {String}
+	 */
 	onChangePicker = async (value) => {
 
 		await this.props.onChangePicker(value);
@@ -146,8 +133,15 @@ class Register extends React.Component {
 		await this.changeMobilePrefix();
 	}
 
+	/**
+	 * todo: 没有作用(后期清理)
+	 */
 	onValueChange = (value) => {}
 
+
+	/**
+	 * todo 这个有可能删掉，应该没有起作用(后期清理)
+	 */
 	showFooter() {
 		return (
 			<View>
@@ -156,17 +150,31 @@ class Register extends React.Component {
 		)
 	}
 
-
+	/**
+	 * 输入手机号
+	 * @method changePhone
+	 * @param v {String}
+	 */
 	changePhone = async (v) => {
-
 		await this.props.changePhone(v);
 	}
 
-	//切换手机邮箱
+	/**
+	 * 请输入email
+	 * @method inputEmail
+	 */
+	inputEmail = async (v) => {
+		await this.props.inputEmail(v);
+	}
+
+	/**
+	 * 渲染手机或邮箱input
+	 * @method renderPhone
+	 * @return {Object}
+	 */
 	renderPhone = () => {
 
 		var componentPhone = null;
-
 
 		if (this.props.Register.type == 'mobile') {
 			componentPhone = (<List.Item thumb="https://os.alipayobjects.com/rmsportal/mOoPurdIfmcuqtr.png">
@@ -183,26 +191,24 @@ class Register extends React.Component {
 		} else {
 			componentPhone = (<List.Item thumb="https://os.alipayobjects.com/rmsportal/mOoPurdIfmcuqtr.png">
 		  		<InputItem
-		            type={'phone'}
+		            type={'email'}
 		            placeholder="邮箱地址"
 		            clear
-		            onChange={(v) => { /*console.log('onChange', v);*/ }}
+		            onChange={(v) => { this.inputEmail(v) }}
 		        > 
 		        </InputItem>
 			</List.Item>)
 		}
 
-
 		return componentPhone;
 	}
 
 	/**
-	 * 转国家格式
+	 * 转国家格式(因为antd组件需要的是数组，接口需要的是数字)
 	 * @method getCountryChangeFormat 
 	 * @return {Array}
 	 */
 	getCountryChangeFormat() {
-
 		let arr = [];
 		this.props.Register.country_data.map((v, k) => {
 			arr.push({
@@ -210,8 +216,6 @@ class Register extends React.Component {
 				label: v.name
 			})
 		});
-
-
 		return arr;
 	}
 
@@ -235,8 +239,11 @@ class Register extends React.Component {
 		}.bind(this), 1000)
 	}
 
+	/** 
+	 * 获取验证码组件
+	 * @method clickExtra
+	 */
 	clickExtra = async () => {
-
 		var data = {
 			country_id: parseInt(this.props.Register.country_id.join(''), 10),
 			mobile: this.props.Register.mobile.replace(/\s/g, ""),
@@ -244,23 +251,23 @@ class Register extends React.Component {
 			type: 0
 		}
 		await this.props.clickExtra(data);
-
-
 		if (this.props.Register.valid_status) {
 			this.readSecond()
 		}
-
 	}
 
+	/**
+	 * 渲染验证码组件
+	 * @method renderExtra
+	 * @return {Object}
+	 */
 	renderExtra = () => {
-
 		let rendSecond = null;
 		if (this.props.Register.valid_status) {
 			rendSecond = (<Text style={{color:'#888888'}}>{this.props.Register.valid_text}</Text>);
 		} else {
 			rendSecond = (<Text onPress={()=>{this.clickExtra()}} style={{color:'#108ee9'}}>{this.props.Register.valid_text}</Text>);
 		}
-
 		return rendSecond;
 	}
 
@@ -270,38 +277,42 @@ class Register extends React.Component {
 	 * @method onSubmit
 	 */
 	onSubmit = () => {
-
-
-		// 手机号为空
-		if (this.props.Register.mobile == '') {
-			Toast.fail('请输入手机号');
-			return;
+		// 如果type是mobile或email对不同的格式验证
+		if (this.props.Register.type == 'mobile') {
+			// 手机号为空
+			if (this.props.Register.mobile == '') {
+				Toast.fail('请输入手机号');
+				return;
+			}
+		} else {
+			// email是否为空
+			if (this.props.Register.email == '') {
+				Toast.fail('请输入邮箱');
+				return;
+			}
 		}
 
-		//todo: 验证码
+		// 验证码
 		if (this.props.Register.code == '') {
 			Toast.fail('请输入验证码');
 			return;
 		}
 
-		//todo: 密码
+		// 密码
 		if (this.props.Register.password == '') {
 			Toast.fail('请输入密码');
 		} else {
-			console.log(!/^(((?=.*[0-9])(?=.*[a-zA-Z])|(?=.*[0-9])(?=.*[^\s0-9a-zA-Z])|(?=.*[a-zA-Z])(?=.*[^\s0-9a-zA-Z]))[^\s]+)$/.test(this.props.Register.password));
 			if (!/^(((?=.*[0-9])(?=.*[a-zA-Z])|(?=.*[0-9])(?=.*[^\s0-9a-zA-Z])|(?=.*[a-zA-Z])(?=.*[^\s0-9a-zA-Z]))[^\s]+)$/.test(this.props.Register.password)) {
 				Toast.fail('密码格式错误');
 				return;
 			}
 		}
 
-		//todo: 确认密码
-
+		// 确认密码
 		if (this.props.Register.password !== this.props.Register.password_confirmation) {
 			Toast.fail('两次输入不一致');
 			return;
 		}
-
 
 		var data = {
 			type: this.props.Register.type,
@@ -315,11 +326,7 @@ class Register extends React.Component {
 			source: this.props.Register.source
 		}
 
-		console.log(data, 'data');
-
-		this.props.onSubmit(data);
-
-
+		this.props.onSubmit(data, this.props.navigation);
 	}
 
 	/**
@@ -328,11 +335,8 @@ class Register extends React.Component {
 	 * @param v {String}
 	 */
 	inputPassword = (v) => {
-		console.log('inputPassword: ', v);
-
 		this.props.inputPassword(v);
 	}
-
 
 	/**
 	 * 请确认密码
@@ -340,8 +344,6 @@ class Register extends React.Component {
 	 * @param v {String}
 	 */
 	okPassword = (v) => {
-		console.log('okPassword: ', v);
-
 		this.props.okPassword(v);
 	}
 
@@ -352,7 +354,6 @@ class Register extends React.Component {
 	 */
 
 	inputInviteCode = (v) => {
-		console.log('邀请码', v);
 		this.props.inputInviteCode(v);
 	}
 
@@ -362,15 +363,10 @@ class Register extends React.Component {
 	 * @param v
 	 */
 	inputCode = (v) => {
-		console.log(v);
-
 		this.props.inputCode(v);
 	}
 
-
-
 	render() {
-
 		return (
 			<ScrollView style={styles.bgView}>
 				<WhiteSpace size="md"/>
@@ -397,7 +393,7 @@ class Register extends React.Component {
 						            value={this.props.Register.country_id}
 						            onChange={this.onChangePicker}
 						        >
-						            <List.Item arrow="horizontal" last onClick={this.onClick}>
+						            <List.Item arrow="horizontal">
 						             	选择国籍:
 						            </List.Item>
 						         </Picker>
@@ -424,7 +420,6 @@ class Register extends React.Component {
 					          >
 					          </InputItem>
 							</List.Item>
-
 							<List.Item thumb="https://os.alipayobjects.com/rmsportal/mOoPurdIfmcuqtr.png">
 					  			<InputItem
 					            type={'password'}
@@ -441,12 +436,11 @@ class Register extends React.Component {
 					            clear
 					            onChange={(v) => { this.inputInviteCode(v) }}
 					          >
-					          	
-					          </InputItem>
+					        </InputItem>
 							</List.Item>
 							<List.Item >
 								{/*<View >*/}
-									<Text>密码需要由8-20位数字组成、字母或符号组成、至少两种</Text>
+								<Text>密码需要由8-20位数字组成、字母或符号组成、至少两种</Text>
 								{/*</View>*/}
 							</List.Item>
 							<List.Item >

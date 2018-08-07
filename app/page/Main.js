@@ -34,7 +34,8 @@ import {
     SearchBar,
     WhiteSpace,
     WingBlank,
-    NoticeBar
+    NoticeBar,
+    Toast
 } from 'antd-mobile-rn';
 
 
@@ -45,7 +46,14 @@ import {
 
 
 //列子的actions方法
-import * as actionCreators from '../actions/GetWeatherAction';
+// import * as actionCreators from '../actions/GetWeatherAction';
+
+//列子的actions方法
+let actionCreators = null;
+import * as GetWeatherActions from '../actions/GetWeatherAction';
+import * as Main from '../actions/Main/Main';
+
+actionCreators = Object.assign({}, GetWeatherActions, RegisterActions);
 
 //echarts图表
 import Echarts from 'native-echarts';
@@ -116,9 +124,9 @@ class Main extends Component {
             <TabNavigator hidesTabTouch={true} swipeEnabled={true}  tabBarStyle={this.props.GetWeatherReducer.tabBarStatus}
               sceneStyle={{ paddingBottom: 'auto' }}>
                 <TabNavigator.Item  
-                  selected={this.state.selectedTab === 'home'}  
+                  selected={this.state.selectedTab === 'home'}
                   title="首页"  
-                  onPress={() => this.tabClickProfile('home')}>  
+                  onPress={() => this.tabClickProfile('home')}>
                   <Home navigation={this.props.navigation}/>
             </TabNavigator.Item>
 

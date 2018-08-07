@@ -36,7 +36,6 @@ export default class StorageUtil {
 
   }
 
-
   /**
    * 保存一个值
    * @param key

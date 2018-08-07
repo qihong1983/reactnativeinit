@@ -28,7 +28,6 @@ const toQueryString = (obj) => {
 //切换注册类型
 const ChangeType = (index) => {
     return function(dispatch) {
-
         if (index == 0) {
             dispatch({
                 type: TYPES.REGISTER_TYPE,
@@ -109,7 +108,7 @@ const ResetForm = () => {
     }
 }
 
-//拉国籍信息
+// 拉国籍信息
 const getCountryInfo = () => {
     return async function(dispatch) {
 
@@ -122,8 +121,6 @@ const getCountryInfo = () => {
                 'Authorization': 'Bearer xxx'
             }
         });
-
-
 
         let json = await res.json();
 
@@ -166,35 +163,17 @@ const clickExtra = (data) => {
             payload: 60
         });
 
-        console.log(JSON.stringify(data), 'xxxx');
-
-        // let formData = new FormData();
-
-        console.log(data.country_id, 'data');
-
-        // formData.append("key": data);
-
-
-        // formData.append("country_id": data.country_id);
-        // formData.append("mobile": data.mobile);
-        // formData.append("receiver_type": data.receiver_type);
-        // formData.append("type": data.type);
-
-        // console.log(formData, 'formData');
-
         let res = await fetch("http://api.tanghs.com/api/v1/send_validator_message", {
             method: 'POST',
             headers: {
                 'Accept': 'application/json',
                 'Content-Type': 'application/json',
             },
-            // body: toQueryString(data)
             body: JSON.stringify(data)
         });
 
         let json = await res.json();
 
-        console.log(json, 'json');
 
         if (json.status.code == 200) {
             await dispatch({
@@ -259,7 +238,6 @@ const stopSecond = () => {
 // 输入密码 inputPassword
 const inputPassword = (data) => {
     return function(dispatch) {
-        console.log('输入密码action', data);
 
         dispatch({
             type: TYPES.REGISTER_PASSWORD,
@@ -272,7 +250,6 @@ const inputPassword = (data) => {
 const okPassword = (data) => {
     return function(dispatch) {
 
-        console.log('确认密码action', data);
         dispatch({
             type: TYPES.REGISTER_PASSWORD_CONFIRMATION,
             payload: data
@@ -284,7 +261,6 @@ const okPassword = (data) => {
 //请输入邀请码
 const inputInviteCode = (data) => {
     return function(dispatch) {
-        console.log('请输入邀请码Action', data);
         dispatch({
             type: TYPES.REGISTER_INVITE_CODE,
             payload: data
@@ -294,12 +270,8 @@ const inputInviteCode = (data) => {
 }
 
 //提交表单
-const onSubmit = (data) => {
+const onSubmit = (data, navigation) => {
     return async function(dispatch) {
-        console.log('提交过来的内容action', data);
-
-        console.log('这是什么结构', JSON.stringify(data));
-
         let res = await fetch("http://api.tanghs.com/api/v1/register", {
             method: 'POST',
             // body: toQueryString(data)
@@ -310,15 +282,14 @@ const onSubmit = (data) => {
             body: JSON.stringify(data)
         });
 
-
         let json = await res.json();
 
         if (json.status.code != 200) {
             Toast.fail(json.data.message);
+        } else {
+            Toast.success('注册成功', 1);
+            navigation.navigate('Login');
         }
-
-        console.log(json, 'jsonjsonjsonjson');
-
     }
 }
 
@@ -332,6 +303,15 @@ const inputCode = (data) => {
     }
 }
 
+//输入email
+const inputEmail = (v) => {
+    return function(dispatch) {
+        dispatch({
+            type: TYPES.REGISTER_EMAIL,
+            payload: data
+        });
+    }
+}
 
 export {
     //切换注册类型
@@ -360,6 +340,8 @@ export {
     inputInviteCode,
     //验证码
     inputCode,
+    //输入email
+    inputEmail,
     //提交表单
     onSubmit
 }

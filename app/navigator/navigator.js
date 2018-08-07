@@ -24,9 +24,11 @@ export const AppNavigator = createStackNavigator({
 	},
 	UserCenter: {
 		screen: UserCenter,
-		navigationOptions: ({navigation}) => ({
-            title: '首页'
-        })
+		navigationOptions: ({
+			navigation
+		}) => ({
+			title: '首页'
+		})
 
 	},
 	Login: {
@@ -40,8 +42,10 @@ export const AppNavigator = createStackNavigator({
 	},
 	Home: {
 		screen: Home,
-				navigationOptions: ({navigation}) => ({
-            title: '首页'
-        })
+		navigationOptions: ({
+			navigation
+		}) => ({
+			title: '首页'
+		})
 	}
 });

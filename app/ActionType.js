@@ -9,6 +9,19 @@ export const ACTION_GETWEATHER_SUCCESS = 'action_getweather_success'; //
 export const TABBARSTATUS = 'tabbarstatus';
 
 /**
+ * 全局
+ */
+export const COMMON_ACCESS_TOKEN = 'assess_token'; //token
+export const COMMON_EXPIRES_IN = 'expires_in'; //token过期时间
+export const COMMON_EXPIRES_MAX = 'expires_max' //过期时间
+
+/**
+ * Main
+ */
+//todo
+
+
+/**
  * 页面注册
  */
 // 注册类型(mobile|email,必填)
@@ -35,8 +48,19 @@ export const REGISTER_COUNTRY_DATA = 'country_data';
 export const REGISTER_NUMBER_AREA = 'number_area';
 // 验证码
 export const REGISTER_VALID_TEXT = 'valid_text';
-
 // 验证码
 export const REGISTER_VALID_STATUS = 'valid_status';
 // 读秒
 export const REGISTER_VALID_SECOND = 'valid_second';
+
+/**
+ * 登录页面
+ */
+//client_id(2)
+export const LOGIN_CLIENT_ID = 'client_id';
+//client_secret(0Xq3xPo255u69f01v1jWpzC7s15hr3AzjvLkCTZD)
+export const LOGIN_CLIENT_SECRET = 'client_secret';
+//用户名
+export const LOGIN_USERNAME = 'username';
+//密码
+export const LOGIN_PASSWORD = 'password';

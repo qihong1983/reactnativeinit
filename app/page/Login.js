@@ -13,9 +13,19 @@ import {
 import {
 	connect
 } from 'react-redux';
-import {
-	actionGetWeather
-} from '../actions/GetWeatherAction';
+
+// import {
+// 	actionGetWeather
+// } from '../actions/GetWeatherAction';
+
+
+//列子的actions方法
+let actionCreators = null;
+import * as CommonActions from '../actions/Common/Common';
+import * as GetWeatherActions from '../actions/GetWeatherAction';
+import * as LoginActions from '../actions/Login/Login';
+
+actionCreators = Object.assign({}, GetWeatherActions, LoginActions, CommonActions);
 
 import TabNavigator from 'react-native-tab-navigator';
 
@@ -31,7 +41,8 @@ import {
 	InputItem,
 	Icon,
 	Grid,
-	Card
+	Card,
+	Toast
 } from 'antd-mobile-rn';
 // InputItem, List
 
@@ -42,17 +53,18 @@ import {
 
 
 //列子的actions方法
-import * as actionCreators from '../actions/GetWeatherAction';
-
+// import * as actionCreators from '../actions/GetWeatherAction';
 
 import Header from '../components/Login/Header';
 
 //获取屏幕宽高库
 import Dimensions from 'Dimensions';
+
 const {
 	width,
 	height
 } = Dimensions.get('window');
+
 class Login extends Component {
 
 	static navigationOptions = ({
@@ -89,7 +101,7 @@ class Login extends Component {
 	}
 
 	componentWillMount() {
-		// this.props.tabBarStatus(false);
+		this.props.initForm();
 	}
 
 	showFooter() {
@@ -108,10 +120,59 @@ class Login extends Component {
 		this.props.navigation.navigate('ForgetPassword');
 	}
 
+	/**
+	 * 输入用户名
+	 * @method inputUserName
+	 * @param v {String}
+	 */
+	inputUserName = (v) => {
+		this.props.inputUserName(v);
+	}
+
+	/**
+	 * 输入密码
+	 * @method inputPassword
+	 * @param data {String}
+	 */
+	inputPassword = (data) => {
+		this.props.inputPassword(data);
+	}
+
+	/**
+	 * 登录操作
+	 */
+	onSubmit = () => {
+
+		console.log(this.props, 'this.props');
+
+		if (this.props.Login.username == '') {
+			Toast.fail('请输入帐号');
+			return;
+		}
+
+		if (this.props.Login.password == '') {
+			Toast.fail('请输入密码');
+			return;
+		}
+
+		var data = {
+			client_id: this.props.Login.client_id,
+			client_secret: this.props.Login.client_secret,
+			username: this.props.Login.username,
+			password: this.props.Login.password
+		}
+
+		this.props.onSubmit(data, this.props.navigation);
+	}
+
+
 	render() {
-		const {
-			type
-		} = this.state;
+		// const {
+		// 	type
+		// } = this.state;
+
+		console.log(this.props, 'this.props');
+
 		return (
 			<ScrollView >
 		  		<WhiteSpace size="md"/>
@@ -121,7 +182,6 @@ class Login extends Component {
 		              thumbStyle={{ width: 30, height: 30 }}
 		              thumb="https://m.imx.com/static/img/titleLogowhite.0068420.png"
 		            />
-
 					<Card.Body>
 						<List>
 							<List.Item thumb="https://os.alipayobjects.com/rmsportal/mOoPurdIfmcuqtr.png">
@@ -129,7 +189,7 @@ class Login extends Component {
 						            type={'text'}
 						            placeholder="请输入帐号"
 						            clear
-						            onChange={(v) => { /*console.log('onChange', v);*/ }}
+						            onChange={(v) => { this.inputUserName(v) }}
 						        > 
 						        </InputItem>
 							</List.Item>
@@ -138,12 +198,12 @@ class Login extends Component {
 					            type={'password'}
 					            placeholder="请输入密码"
 					            clear
-					            onChange={(v) => { /*console.log('onChange', v);*/ }}
+					            onChange={(v) => { this.inputPassword(v) }}
 					          >
 					          </InputItem>
 							</List.Item>
 							<List.Item >
-								<Button type="primary">登录</Button>
+								<Button type="primary" onClick={() => {this.onSubmit()}}>登录</Button>
 							</List.Item>
 							<List.Item >
 								<View >
@@ -183,7 +243,9 @@ const styles = StyleSheet.create({
 
 const mapStateToProps = (state) => {
 	return {
-		GetWeatherReducer: state.getWeather
+		GetWeatherReducer: state.getWeather,
+		Login: state.Login,
+		Common: state.Common
 	}
 };
 
