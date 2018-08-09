@@ -8,6 +8,9 @@ import moment from 'moment';
 
 import _ from 'lodash';
 
+
+import StorageUtil from '../../utils/StorageUtil';
+
 import {
 	Button,
 	Toast,
@@ -92,8 +95,15 @@ const onSubmit = (data, navigation) => {
 				payload: new Date().getTime() / 1000 + json.expires_in
 			});
 
+			await dispatch({
+				type: TYPES.MAIN_SELECTEDTAB,
+				payload: 'home'
+			});
+
+			StorageUtil.saveJsonObject('access_token', json.access_token);
+
 			Toast.success('登录成功');
-			navigation.navigate('Main');
+			navigation.push('Main');
 		}
 
 	}

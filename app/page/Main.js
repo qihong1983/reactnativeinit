@@ -51,9 +51,9 @@ import {
 //列子的actions方法
 let actionCreators = null;
 import * as GetWeatherActions from '../actions/GetWeatherAction';
-import * as Main from '../actions/Main/Main';
+import * as MainActions from '../actions/Main/Main';
 
-actionCreators = Object.assign({}, GetWeatherActions, RegisterActions);
+actionCreators = Object.assign({}, GetWeatherActions, MainActions);
 
 //echarts图表
 import Echarts from 'native-echarts';
@@ -110,33 +110,40 @@ class Main extends Component {
 
     tabClickProfile = (e) => {
 
-        console.log(this.props.GetWeatherReducer);
-        this.setState({
-            selectedTab: e
-        });
+        // console.log(this.props.GetWeatherReducer);
+        // this.setState({
+        //     selectedTab: e
+        // });
+        console.log(this.props);
+        this.props.changeTabBar(e);
     }
 
     render() {
 
-        console.log(this.props, 'this.props');
-        console.log(this.props.GetWeatherReducer.tabBarStatus, 'this.props.GetWeatherReducer.tabBarStatus');
+        console.log(this.props.selectTab);
+
         return (
-            <TabNavigator hidesTabTouch={true} swipeEnabled={true}  tabBarStyle={this.props.GetWeatherReducer.tabBarStatus}
-              sceneStyle={{ paddingBottom: 'auto' }}>
+            <View style={{ flex: 1,backgroundColor: 'white'}}>
+            <TabNavigator hidesTabTouch={true} swipeEnabled={true} 
+                sceneStyle={{ paddingBottom: 'auto' }}
+                tabBarStyle={{ height: 45, borderTopWidth:1, borderTopColor:'red'}}
+                sceneStyle={{ paddingBottom: 45 }}
+            >
                 <TabNavigator.Item  
-                  selected={this.state.selectedTab === 'home'}
+                  selected={this.props.Main.selectTab === 'home'}
                   title="首页"  
                   onPress={() => this.tabClickProfile('home')}>
                   <Home navigation={this.props.navigation}/>
             </TabNavigator.Item>
 
             <TabNavigator.Item  
-                selected={this.state.selectedTab === 'userCenter'}
+                selected={this.props.Main.selectTab === 'userCenter'}
                 title="个人中心"  
                 onPress={() => this.tabClickProfile('userCenter') }>
               <UserCenter navigation={this.props.navigation} />
             </TabNavigator.Item>
         </TabNavigator>
+        </View>
         );
     }
 }
@@ -150,8 +157,10 @@ const styles = StyleSheet.create({
 });
 
 const mapStateToProps = (state) => {
+    console.log(state, 'xxx');
     return {
-        GetWeatherReducer: state.getWeather
+        GetWeatherReducer: state.getWeather,
+        Main: state.Main
     }
 };
 

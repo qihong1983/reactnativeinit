@@ -26,23 +26,54 @@ const toQueryString = (obj) => {
 }
 
 /**
- * 切换changeTabBar
- * @method changeTabBar
+ * 切换Tab
+ * @method changeTab
  * @param data
  */
-const changeTabBar = (data) => {
+const changeTab = (data) => {
 	return function(dispatch) {
 
 		console.log('xxx');
 
 		dispatch({
-			type: TYPES.MAIN_SELECTEDTAB,
+			type: TYPES.HOME_TAB_SELECTED,
 			payload: data
 		});
 
 	}
 }
 
+/**
+ * 拉数据
+ * @method getData
+ */
+const getData = () => {
+	return async function(dispatch) {
+		let res = await fetch("http://api.tanghs.com/api/v1/coin_matching", {
+			method: 'GET',
+			headers: {
+				'Accept': 'application/json',
+				'Content-Type': 'application/json',
+			}
+		});
+
+		let json = await res.json();
+
+
+
+		if (json.status.code == 200) {
+			dispatch({
+				type: TYPES.HOME_TAB_DATA,
+				payload: json.data
+			});
+		}
+
+	}
+}
+
 export {
-	changeTabBar
+	//tab切换
+	changeTab,
+	//拉数据
+	getData
 }

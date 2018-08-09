@@ -15,6 +15,16 @@ import {
 	Common
 } from './Common/Common';
 
+//Main页面
+import {
+	Main
+} from './Main/Main';
+
+//Home页面
+import {
+	Home
+} from './Home/Home';
+
 //用户注册
 import {
 	Register
@@ -31,7 +41,9 @@ const rootReducer = combineReducers({
 	getWeather,
 	Register,
 	Login,
-	Common
+	Common,
+	Main,
+	Home
 });
 
 export default rootReducer;

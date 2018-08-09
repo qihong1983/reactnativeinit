@@ -15,6 +15,9 @@ import ForgetPassword from '../page/ForgetPassword';
 // 主页
 import Home from '../page/Home';
 
+// 搜索页面
+import Search from '../page/Search';
+
 export const AppNavigator = createStackNavigator({
 	Main: {
 		screen: Main
@@ -47,5 +50,8 @@ export const AppNavigator = createStackNavigator({
 		}) => ({
 			title: '首页'
 		})
+	},
+	Search: {
+		screen: Search
 	}
 });

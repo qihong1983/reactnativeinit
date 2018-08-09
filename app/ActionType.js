@@ -18,11 +18,16 @@ export const COMMON_EXPIRES_MAX = 'expires_max' //过期时间
 /**
  * Main
  */
-//todo
-
+export const MAIN_SELECTEDTAB = 'selectTab'; //切换tabBar
 
 /**
- * 页面注册
+ * 首页Home
+ */
+export const HOME_TAB_SELECTED = 'tab_selected'; // 选重
+export const HOME_TAB_DATA = 'tab_data'; //数据
+
+/**
+ * 页面注册Register
  */
 // 注册类型(mobile|email,必填)
 export const REGISTER_TYPE = 'type'; //
@@ -54,7 +59,7 @@ export const REGISTER_VALID_STATUS = 'valid_status';
 export const REGISTER_VALID_SECOND = 'valid_second';
 
 /**
- * 登录页面
+ * 登录页面Login
  */
 //client_id(2)
 export const LOGIN_CLIENT_ID = 'client_id';

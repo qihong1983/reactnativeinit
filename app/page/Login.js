@@ -14,11 +14,6 @@ import {
 	connect
 } from 'react-redux';
 
-// import {
-// 	actionGetWeather
-// } from '../actions/GetWeatherAction';
-
-
 //列子的actions方法
 let actionCreators = null;
 import * as CommonActions from '../actions/Common/Common';
@@ -26,8 +21,6 @@ import * as GetWeatherActions from '../actions/GetWeatherAction';
 import * as LoginActions from '../actions/Login/Login';
 
 actionCreators = Object.assign({}, GetWeatherActions, LoginActions, CommonActions);
-
-import TabNavigator from 'react-native-tab-navigator';
 
 //antd库
 import {
@@ -245,7 +238,8 @@ const mapStateToProps = (state) => {
 	return {
 		GetWeatherReducer: state.getWeather,
 		Login: state.Login,
-		Common: state.Common
+		Common: state.Common,
+		Main: state.Main
 	}
 };
 
